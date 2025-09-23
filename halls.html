@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hall Request</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#f7f7f9; }
+    header { background:#dcdc35; color:#111; padding:14px 16px; }
+    header h1{ margin:0; text-align:center; font-size:22px; }
+
+    /* tabs top center */
+    .tabs { display:flex; justify-content:center; gap:12px; padding:12px 0; background:#fff; border-bottom:1px solid #e5e7eb; }
+    .tab-btn{
+      padding:10px 18px; border:1px solid #d1d5db; background:#fff; border-radius:10px;
+      cursor:pointer; font-weight:700; color:#374151; min-width:140px;
+    }
+    .tab-btn.active{ background:#111827; color:#fff; border-color:#111827; }
+
+    /* layout */
+    .container { max-width:1200px; margin:18px auto; display:grid; gap:18px; grid-template-columns: 1fr 360px; }
+    .card{ background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.06); padding:16px; }
+
+    /* halls cards */
+    #hallSection{ display:none; }               /* hidden until availability is checked */
+    .hall{ border:1px solid #eee; border-radius:12px; padding:14px; margin-bottom:14px; background:#fff; }
+    .chips span{ display:inline-block; padding:3px 8px; margin:3px 6px 0 0; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; font-size:12px; }
+    .btn{ padding:8px 12px; border-radius:8px; background:#374151; color:#fff; border:none; cursor:pointer; }
+    .btn.secondary{ background:#4b5563; }
+    label{ display:block; font-size:13px; color:#374151; margin:8px 0 4px;}
+    input{ width:100%; padding:9px; border:1px solid #d1d5db; border-radius:8px; }
+    #availabilityMsg{ font-size:13px; margin-top:8px; }
+
+    /* panels */
+    .panel{ display:none; }
+    .panel.active{ display:block; }
+
+    /* bookings table */
+    table{ width:100%; border-collapse:collapse; }
+    th,td{ padding:10px; border-bottom:1px solid #eee; text-align:left; }
+    th{ background:#fafafa; font-weight:700; }
+    .status{ padding:2px 8px; border-radius:999px; font-size:12px; display:inline-block; }
+    .pending{ background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; }
+    .approved{ background:#ecfeff; color:#0e7490; border:1px solid #a5f3fc; }
+    .rejected{ background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
+
+    /* small screens */
+    @media (max-width: 960px){
+      .container{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header><h1>Hall Request</h1></header>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button id="tab-book" class="tab-btn active" onclick="showTab('book')">Book Hall</button>
+    <button id="tab-my" class="tab-btn" onclick="showTab('my')">My Bookings</button>
+  </div>
+
+  <!-- Book Hall -->
+  <section id="panel-book" class="panel active">
+    <div class="container">
+      <!-- Left: halls (hidden until availability checked) -->
+      <div>
+        <div id="hallSection" class="card">
+          <h3>Available Halls</h3>
+          <div id="hallList"></div>
+        </div>
+      </div>
+
+      <!-- Right: availability form -->
+      <aside class="card">
+        <h3>Check Availability</h3>
+        <label>From Date</label><input type="date" id="fromDate">
+        <label>From Time (24h)</label><input type="time" id="fromTime">
+        <label>To Date</label><input type="date" id="toDate">
+        <label>To Time (24h)</label><input type="time" id="toTime">
+        <label>Capacity</label><input type="number" id="capacity" placeholder="e.g., 120">
+        <div style="margin-top:10px; display:flex; gap:8px;">
+          <button class="btn" onclick="checkAvailability()">Check Availability</button>
+          <button class="btn secondary" onclick="clearAvailability()">Clear</button>
+        </div>
+        <div id="availabilityMsg"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- My Bookings -->
+  <section id="panel-my" class="panel">
+    <div class="card" style="max-width:1200px; margin:18px auto;">
+      <h3>My Bookings</h3>
+      <p style="color:#6b7280; margin-top:6px;">Your previous requests appear here. New ones show as <b>Pending</b>.</p>
+      <div id="bookingsEmpty" style="display:none; color:#6b7280; margin:12px 0;">No bookings yet.</div>
+      <div style="overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Hall</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Capacity</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

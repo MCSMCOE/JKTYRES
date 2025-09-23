@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Services - Leave</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Campus Services</h1>
+    <div class="welcome" id="welcomeBar">Welcome!</div>
+  </header>
+
+  <div class="wrap">
+    <aside id="sidebar"></aside>
+    <main class="content">
+      <section>
+        <h2>Leave Application</h2>
+        <label>From</label><input type="date" id="lFrom">
+        <label>To</label><input type="date" id="lTo">
+        <label>Reason</label><input id="lReason">
+        <button onclick="applyLeave()">Apply</button>
+        <p id="lMsg"></p>
+      </section>
+    </main>
+  </div>
+
+  <script src="common.js"></script>
+  <script src="leave.js"></script>
+</body>
+</html>

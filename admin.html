@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hall Requests – Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#f6f7fb; color:#111827; }
+    header { background:#3949ab; color:#fff; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:18px; }
+    .wrap { max-width:1100px; margin:18px auto; padding:0 12px; }
+
+    .panel { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+    .panel h2 { margin:0 0 10px; font-size:18px; }
+
+    .bar { display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+    .btn { padding:8px 12px; border:none; border-radius:8px; cursor:pointer; background:#3949ab; color:#fff; }
+    .btn.secondary { background:#6b7280; }
+    .btn.approve { background:#059669; }
+    .btn.reject { background:#dc2626; }
+    .btn:disabled { opacity:.6; cursor:not-allowed; }
+
+    input[type="text"], select {
+      border:1px solid #d1d5db; border-radius:8px; padding:8px; min-width:220px;
+    }
+
+    table { width:100%; border-collapse:collapse; }
+    th, td { padding:10px; border-bottom:1px solid #eee; text-align:left; vertical-align:top; }
+    th { background:#fafafa; font-weight:700; }
+    .status { padding:2px 8px; border-radius:999px; font-size:12px; display:inline-block; }
+    .pending  { background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; }
+    .approved { background:#ecfeff; color:#0e7490; border:1px solid #a5f3fc; }
+    .rejected { background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
+
+    .muted { color:#6b7280; }
+    .right { text-align:right; }
+    .small { font-size:12px; color:#6b7280; }
+    .pill { display:inline-block; padding:3px 8px; border:1px solid #e5e7eb; border-radius:999px; background:#f3f4f6; font-size:12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hall Requests – Admin</h1>
+    <div>
+      <a class="btn secondary" href="halls.html">⬅ Back to Halls</a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="panel">
+      <h2>Incoming Requests</h2>
+
+      <div class="bar">
+        <select id="filterStatus">
+          <option value="all">All</option>
+          <option value="pending" selected>Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+
+        <input type="text" id="searchBox" placeholder="Search by hall / ID…" />
+
+        <button class="btn secondary" onclick="refresh()">Refresh</button>
+        <button class="btn" onclick="exportCSV()">Export</button> 
+        <div class="small" id="counts"></div>
+      </div>
+
+      <div style="overflow:auto;">
+        <table id="reqTable">
+          <thead>
+            <tr>
+              <th style="width:120px;">Booking ID</th>
+              <th>Hall & Window</th>
+              <th style="width:140px;">Capacity</th>
+              <th style="width:120px;">Status</th>
+              <th class="right" style="width:220px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reqBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
