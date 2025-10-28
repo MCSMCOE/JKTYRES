@@ -6,7 +6,7 @@ function loadUser(){ try { return JSON.parse(localStorage.getItem(LS_KEY)); } ca
 function clearUser(){ localStorage.removeItem(LS_KEY); }
 
 function doLogin(){
-  const name = document.getElementById("lgName").value;
+  const1 name = document.getElementById("lgName").value;
   const email = document.getElementById("lgEmail").value;
   const dept = document.getElementById("lgDept").value;
   if(!name){ alert("Enter name"); return; }
