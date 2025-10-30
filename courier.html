@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Courier Tracking</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-dark px-4">
+    <a href="dashboard.html" class="navbar-brand">🏢 Office Admin Portal</a>
+    <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container mt-4">
+    <h3>📦 Courier Tracking</h3>
+    <p class="text-muted">Logged in as: <strong id="roleDisplay"></strong></p>
+    <p class="text-muted">Employee can register new parcel; Gate can update docket; Receptionist can view all.</p>
+
+    <!-- Tabs for roles -->
+    <ul class="nav nav-tabs mt-4" id="roleTabs">
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#empTab">Employee</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#gateTab">Gate</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#recepTab">Receptionist</a></li>
+    </ul>
+
+    <div class="tab-content mt-3">
+      <!-- Employee Form -->
+      <div class="tab-pane fade show active" id="empTab">
+  <div class="card p-3 mb-3">
+    <h5>New Parcel Entry</h5>
+    <form id="empForm" onsubmit="addParcel(event)">
+      <div class="row mb-2">
+        <div class="col-md-3">
+          <label>Date</label>
+          <input type="date" id="pDate" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label>Sender Name</label>
+         <input type="text" id="pSender" class="form-control" disabled>
+        </div>
+
+        <div class="col-md-3">
+          <label>To Address</label>
+          <input type="text" id="pTo" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label>Subject</label>
+          <input type="text" id="pSubject" class="form-control" required>
+        </div>
+      </div>
+      <button class="btn btn-primary">Submit Parcel</button>
+    </form>
+  </div>
+
+  <div class="card p-3">
+    <h5>📋 My Parcels</h5>
+    <table class="table table-bordered" id="empTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>To</th>
+          <th>Subject</th>
+          <th>Docket #</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+      <!-- Gate Update -->
+     <div class="tab-pane fade" id="gateTab">
+  <div class="card p-3">
+    <h5>Enter Docket Number (Gate)</h5>
+    <table class="table table-bordered" id="gateTable">
+      <thead>
+        <tr><th>ID</th><th>Date</th><th>Sender</th><th>To</th><th>Subject</th><th>Docket #</th><th>Action</th></tr>
+      </thead>
+      <tbody></tbody>   <!-- ✅ required -->
+    </table>
+  </div>
+</div>
+      <!-- Receptionist View -->
+      <div class="tab-pane fade" id="recepTab">
+        <div class="card p-3">
+          <h5>All Parcels (Sent & Received)</h5>
+          <table class="table table-striped" id="recepTable">
+            <thead>
+              <tr><th>ID</th><th>Date</th><th>Sender</th><th>To</th><th>Subject</th><th>Docket #</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+    document.getElementById("roleDisplay").textContent = user.role || "Guest";
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    applyRoleBasedTabs();
+  });
+</script>
+</body>
+</html>
